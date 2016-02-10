@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>websocketd count example</title>
+    <title>twitter data via websockt</title>
     <style>
       #count {
         font: bold 75px arial;
@@ -18,13 +18,13 @@
     <script>
       var ws = new WebSocket('ws://localhost:8080/');
       ws.onopen = function() {
-        document.body.style.backgroundColor = '#cfc';
+        document.body.style.backgroundColor = '#cfc'; //set background color to green
       };
       ws.onclose = function() {
         document.body.style.backgroundColor = null;
       };
       ws.onmessage = function(event) {
-        document.getElementById('count').textContent = event.data;
+        document.getElementById('count').textContent = event.data; //display the output on webpage via websocket
       };
     </script>
 
