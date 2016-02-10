@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #Import the necessary methods from tweepy library
+#the goal of this program is to obtain the number of tweets which include "streaming"
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
@@ -16,7 +17,7 @@ access_token_secret = "XSKSRbfQ2baQFJ5Sc9WrSPf6AT05NvdpMtQi6fGLajEoR"
 consumer_key = "X8B3WiESc1q6v8NQqRcP3kUvw"
 consumer_secret = "Wb619BUbvSOTZ3Azoe1oYkCmVRE7yD3TkZMjFobDoi64XEcCLX"
 #input kinds of secert key
-def count_number(file):
+def count_number(file):   #define the function that can count the number of sentences which contains 'streaming'
     tweets_data = []
     tweets_file = open(file, "r")
     for line in tweets_file:
@@ -37,17 +38,14 @@ def count_number(file):
             return True #if yes, return ture
         return False
 
-
-    tweets['python'] = tweets['text'].apply(lambda tweet: if_word_in_text('python', tweet))
-    tweets['java'] = tweets['text'].apply(lambda tweet: if_word_in_text('java', tweet))
     tweets['streaming'] = tweets['text'].apply(lambda tweet: if_word_in_text('streaming', tweet))
-    #put all "python, java, streaming" in my series
+    #put all "streaming" into series
     
-    m1=tweets['python'].value_counts()[True]
-    m2=tweets['java'].value_counts()[True]
     m3=tweets['streaming'].value_counts()[True]
-    # obtain the number of these three words exists
-    print " %d sentences include python \n %d sentences include java \n %d sentences include streaming"%(m1,m2,m3)
+    # obtain the number of the sentences that include "streaming" exists.
+
+    
+    print "%d sentences include streaming"%m3
     stdout.flush()
     time.sleep(5)
 
@@ -56,9 +54,8 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
         try:
-            #.split(',"text":"')[1].split('","source')[0]
-            savefile=open('data.csv','a')
-            savefile.write(data)
+            savefile=open('data.csv','a')  #open file data.csv
+            savefile.write(data)           
             savefile.write('\n') # store tweets in file
             savefile.close()
             count_number('data.csv')
@@ -73,8 +70,8 @@ l = StdOutListener()
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 stream = Stream(auth, l)
-stream.filter(track=['python', 'java', 'streaming'])
-#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
+stream.filter(track=['streaming']) 
+#This line filter Twitter Streams to capture data by the keywords: 'streaming'
 
 
 
